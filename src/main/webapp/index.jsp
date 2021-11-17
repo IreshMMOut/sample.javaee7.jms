@@ -74,25 +74,13 @@ button {
 </div>
 <div class="frm2">
 <div class="small">This application has been tested with Firefox and Chrome </div>
-<div class="small"> The source code for this application can be found on: <a href="https://github.com/WASdev/">https://github.com/WASdev/</a> </div>
+<div class="small"> The source code for this application can be found on: <a href="https://github.com/WASdev/">https://github.com/WASdev/</a></div>
+<div class="small">This is a fork of the original repository <a href="https://github.com/IreshMMOut/sample.javaee7.jms">https://github.com/IreshMMOut/sample.javaee7/</a></div>
 </div>
 
 <div class="frm3">
 		
 		
-		<h3>Publisher Suscriber Tests</h3>
-		<a href="/sample.javaee7.jms/PublisherSubscriberTest?ACTION=consumerTest">Consumer Test</a><br>
-		Create a non durable subscriber and publish and receive the message from topic <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/PublisherSubscriberTest?ACTION=consumerTest <br></i>
-		<br>
-		<a href="/sample.javaee7.jms/PublisherSubscriberTest?ACTION=durableConsumer">Durable Consumer Test</a><br>
-		Create a durable subscriber and publish and receive the message from topic <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/PublisherSubscriberTest?ACTION=durableConsumer <br></i>
-		<br>
-		<a href="/sample.javaee7.jms/PublisherSubscriberTest?ACTION=publishMessages">Publish Messages Test</a><br>
-		Publish 5 messages to the topic <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/PublisherSubscriberTest?ACTION=publishMessages <br></i>
-		<br>
 		<h3>Point to Point Tests</h3>
 		<a href="/sample.javaee7.jms/P2PTest?ACTION=sendAndReceive">Send And Receive Test</a><br>
 		Call the Send and Receive Message <br>
@@ -110,56 +98,6 @@ button {
 		Receive all the messages using message selector<br>
 		<i>url: &lt;host:port&gt;/sample.javaee7.jms/P2PTest?ACTION=receiveAllMessagesSelectors <br></i>
 		<br>
-			
-		<h3>Delivery Delay Tests</h3>
-		<a href="/sample.javaee7.jms/DeliveryDelayTest?ACTION=deliveryDelayQueue">Delivery Delay Queue Test</a><br>
-		setDeliveryDelay on a JMSProducer with a Queue as destination is being showcased on this scenario <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jmsDeliveryDelayTest?ACTION=deliveryDelayQueue <br></i>
-		<br>
-			<a href="/sample.javaee7.jms/DeliveryDelayTest?ACTION=deliveryDelayTopic">Delivery Delay Topic Test</a><br>
-		setDeliveryDelay on JMSProducer with a Topic as destination is being showcased on this scenario<br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jmsDeliveryDelayTest?ACTION=deliveryDelayTopic <br></i>
-		<br>
-
-		<h3>Get Body Tests</h3>
-		<a href="/sample.javaee7.jms/GetBodyTest?ACTION=getBodyQueue">Get Body Queue Test</a><br>
-		getBodyQueue function is being showcased on this scenario<br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/GetBodyTest?ACTION=getBodyQueue <br></i>
-		<br>
-		<a href="/sample.javaee7.jms/GetBodyTest?ACTION=getBodyTopic">Get Body Topic Test</a><br>
-		getBodyTopic function is being showcased on this scenario <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/GetBodyTest?ACTION=getBodyTopic <br></i>
-		<br>
-			<a href="/sample.javaee7.jms/GetBodyTest?ACTION=receiveBodyQueue">Receive Body Queue Test</a><br>
-		receiveBodyQueue function is being showcased on this scenario <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/GetBodyTest?ACTION=receiveBodyQueue <br></i>
-		<br>
-				<a href="/sample.javaee7.jms/GetBodyTest?ACTION=receiveBodyTopic">Receive Body Topic Test</a><br>
-		receiveBodyTopic function is being showcased on this scenario <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/GetBodyTest?ACTION=receiveBodyTopic <br></i>
-		<br>
-
-		<h3>Method Chaining Tests</h3>
-		<a href="/sample.javaee7.jms/MethodChainingTest?ACTION=MethodChainingQueue">Method Chaining Queue Test</a><br>
-		Method chaining is being showcased with a Queue as destination on this scenario <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/MethodChainingTest?ACTION=MethodChainingQueue <br></i>
-		<br>		
-		<a href="/sample.javaee7.jms/MethodChainingTest?ACTION=MethodChainingTopic">Method Chaining Topic Test</a><br>
-		Method chaining is being showcased with a Topic as destination on this scenario <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/MethodChainingTest?ACTION=MethodChainingTopic <br></i>
-		<br>
-		
-		<h3>Suscription Tests</h3>
-		<a href="/sample.javaee7.jms/SubscriptionTest?ACTION=createSharedConsumerTest">Create Shared Consumer Test</a><br>
-		createSharedConsumer on JMSContext is being showcased on this scenario<br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/SubscriptionTest?ACTION=createSharedConsumerTest <br></i>
-		<br>
-		
-		<a href="/sample.javaee7.jms/SubscriptionTest?ACTION=createSharedDurableConsumerTest">Create Shared Durable Consumer Test</a><br>
-		createSharedDurableConsumer on JMSContext is being showcased on this scenario <br>
-		<i>url: &lt;host:port&gt;/sample.javaee7.jms/SubscriptionTest?ACTION=createSharedDurableConsumerTest <br></i>
-		<br>
-		
 		
 	</div>
 

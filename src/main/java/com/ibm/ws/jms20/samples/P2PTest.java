@@ -151,6 +151,7 @@ public class P2PTest extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 		out.println("SendAndReceive Started <br>");
+		System.out.println("STARTEDHERE");
 
 		/*
 		 * Lookup Queue Connection Factory from JNDI
