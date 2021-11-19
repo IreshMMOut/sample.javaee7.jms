@@ -1,54 +1,46 @@
 import sys
 
-busName = "DEFAULT"
 cellName = sys.argv[0]
 node = sys.argv[1]
 server = sys.argv[2]
-queueName = "Queue1"
-topicspaceName = "TS1"
+queueName = "DEV.QUEUE.1"
 jmsQConnFac = "jndi_JMS_BASE_QCF"
-jmsTConnFac = "jmsTCF"
+queueManager = "JMSQM1"
+hostName = "mq"
+port = "1414"
+channel = "DEV.APP.SVRCONN"
+sslConfiguration = "JMSQM1SSLConfiguration"
 jmsQueueOnNode1 = "jndi_INPUT_Q"
-jmsTopicOnNode1 = "jmsTopic"
-topicName = "topicDest"
-clientID = "client1"
 appPath = sys.argv[3]
+
 print "------------- ENV -------------"
-
 print "Node : "+node
-
 print "Server : "+server
-
 print "-------------------------------"
-
 scope = AdminConfig.getid("/Node:%s/" % node )
-
 print "Using scope: %s" % scope
 
+
+print "Creating SSLConfiguration"
+AdminTask.createSSLConfig('[-alias JMSQM1SSLConfiguration -type JSSE -scopeName (cell):%s:(node):%s -keyStoreName NodeDefaultKeyStore -keyStoreScopeName (cell):%s:(node):%s -trustStoreName NodeDefaultTrustStore -trustStoreScopeName (cell):%s:(node):%s -serverKeyAlias default ]' %(cellName, node, cellName, node, cellName, node))
+AdminTask.modifySSLConfig('[-alias JMSQM1SSLConfiguration -scopeName (cell):%s:(node):%s -keyStoreName NodeDefaultKeyStore -keyStoreScopeName (cell):%s:(node):%s -trustStoreName NodeDefaultTrustStore -trustStoreScopeName (cell):%s:(node):%s -jsseProvider IBMJSSE2 -sslProtocol SSL_TLSv2 -clientAuthentication false -clientAuthenticationSupported false -securityLevel CUSTOM -enabledCiphers SSL_RSA_WITH_AES_256_CBC_SHA256 ]' % (cellName, node, cellName, node, cellName, node))
+AdminTask.retrieveSignerFromPort('[-keyStoreName NodeDefaultTrustStore -keyStoreScope (cell):%s:(node):%s -host mq -port 1414 -certificateAlias qmgr-jmsqm1 -sslConfigName NodeDefaultSSLSettings -sslConfigScopeName (cell):%s:(node):%s ]' % (cellName, node, cellName, node))
+
+
+
 print "Creating QueueConnectionFactory %s " % jmsQConnFac
-
-params = "-name %s -jndiName %s" % (jmsQConnFac, jmsQConnFac)
-AdminTask.createWMQConnectionFactory(scope, params)
-
-print "Creating TopicConnectionFactory %s " % jmsTConnFac
-
-durableSubHome = node +"."+server+"-"+busName
-print durableSubHome
-params = "-name %s -jndiName %s" % (jmsTConnFac, jmsTConnFac)
-AdminTask.createSIBJMSConnectionFactory(scope, params )
+AdminJMS.createWMQQueueConnectionFactory(scope, jmsQConnFac, jmsQConnFac, [["qmgrName", queueManager], ["qmgrHostname", hostName], ["qmgrPortNumber", port], ["qmgrSvrconnChannel", channel], ["wmqTransportType", "CLIENT"], ["sslType", "SPECIFIC"], ["sslConfiguration", "JMSQM1SSLConfiguration"]]) 
 
 print "Creating JMSQueue %s " % jmsQueueOnNode1
-
-params = "-name %s -queueName %s -jndiName %s" % (jmsQueueOnNode1, queueName, jmsQueueOnNode1)
-AdminTask.createSIBJMSQueue(scope, params )
-
-print "Creating JMSTopic %s " % jmsTopicOnNode1
-
-params = "-name %s -jndiName %s -topicName %s" % (jmsTopicOnNode1, jmsTopicOnNode1, topicName)
-AdminTask.createSIBJMSTopic(scope, params )
+AdminJMS.createWMQQueue(scope, jmsQueueOnNode1, jmsQueueOnNode1, queueName, "qmgr=%s" % queueManager)
 
 print "Install the application %s" % appPath
+AdminApp.install(appPath, '[ -appname sample_javaee7_jms_war -contextroot sample.javaee7.jms -MapResRefToEJB [[ JMS20_Samples_P2PTEST "" sample.javaee7.jms.war,WEB-INF/web.xml jndi_JMS_BASE_QCF javax.jms.QueueConnectionFactory jndi_JMS_BASE_QCF ]] -MapModulesToServers [[ JMS20_Samples_P2PTEST sample.javaee7.jms.war,WEB-INF/web.xml WebSphere:cell='+cellName+',node='+node+',server='+server+' ]] -MapResEnvRefToRes [[ JMS20_Samples_P2PTEST "" sample.javaee7.jms.war,WEB-INF/web.xml jndi_INPUT_Q javax.jms.Queue jndi_INPUT_Q ]]]' )
 
-AdminApp.install(appPath, '[ -appname sample_javaee7_jms_war -contextroot sample.javaee7.jms -MapResRefToEJB [[ JMS20_Samples_P2PTEST "" sample.javaee7.jms.war,WEB-INF/web.xml jndi_JMS_BASE_QCF javax.jms.QueueConnectionFactory jndi_JMS_BASE_QCF ][ JMS20_Samples_P2PTEST "" sample.javaee7.jms.war,WEB-INF/web.xml jmsTCF javax.jms.TopicConnectionFactory jmsTCF ]] -MapModulesToServers [[ JMS20_Samples_P2PTEST sample.javaee7.jms.war,WEB-INF/web.xml WebSphere:cell='+cellName+',node='+node+',server='+server+' ]] -MapResEnvRefToRes [[ JMS20_Samples_P2PTEST "" sample.javaee7.jms.war,WEB-INF/web.xml jndi_INPUT_Q javax.jms.Queue jndi_INPUT_Q ][ JMS20_Samples_P2PTEST "" sample.javaee7.jms.war,WEB-INF/web.xml jmsTopic javax.jms.Topic jmsTopic ]]]' )
+AdminConfig.save( )
+
+print "Starting application"
+appManager = AdminControl.queryNames('cell=%s,node=%s,type=ApplicationManager,process=%s,*' % (cellName, node, server))
+AdminControl.invoke(appManager, 'startApplication', "sample_javaee7_jms_war")
 
 AdminConfig.save( )
